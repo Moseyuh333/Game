@@ -8,10 +8,30 @@ var floating_offset: float = 0.0
 
 func _ready():
 	body_entered.connect(_on_body_entered)
+	# Set collision layer for items
+	collision_layer = 3  # Items layer
+	collision_mask = 1   # Player layer
 	# Load item data
 	if item_id != "":
 		var items = load_items_json()
 		item_data = items.get(item_id, {})
+		# Set sprite color based on item type
+		var sprite = get_node_or_null("Sprite2D")
+		if sprite:
+			if not sprite.texture:
+				var img = Image.create(12, 12, false, Image.FORMAT_RGBA8)
+				match item_data.get("type", ""):
+					"consumable":
+						img.fill(Color(0, 1, 0))  # Green
+					"weapon":
+						img.fill(Color(1, 1, 0))  # Yellow
+					"armor":
+						img.fill(Color(0.5, 0.5, 0.5))  # Gray
+					"key":
+						img.fill(Color(1, 1, 1))  # White
+					_:
+						img.fill(Color(1, 1, 1))
+				sprite.texture = ImageTexture.create_from_image(img)
 	# Bobbing animation
 	floating_offset = randf() * TAU
 

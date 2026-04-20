@@ -5,6 +5,7 @@ class_name GameOver
 
 func _ready():
 	add_to_group("game_over")
+	hide()  # Hide initially
 	restart_button.pressed.connect(_on_restart)
 
 func _on_restart():

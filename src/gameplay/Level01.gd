@@ -3,7 +3,7 @@ class_name Level01
 
 @onready var tilemap: TileMap = $TileMap
 @onready var player_spawn: Node2D = $PlayerSpawn
-@onready var boss_room_door: Area2D = $BossRoomDoor if has_node("BossRoomDoor") else null
+@onready var boss_room_door: StaticBody2D = $BossRoomDoor if has_node("BossRoomDoor") else null
 @onready var exit_portal: Area2D = $ExitPortal
 
 var boss_defeated: bool = false
@@ -15,6 +15,9 @@ func _ready():
 	spawn_items()
 	spawn_npcs()
 	setup_lighting()
+	# Ensure door is environment collision
+	if boss_room_door:
+		boss_room_door.collision_layer = 4
 	exit_portal.body_entered.connect(_on_exit_body_entered)
 
 func build_level():
@@ -118,9 +121,9 @@ func build_level():
 			tilemap.set_cell(0, Vector2i(x, y), tile_id, Vector2i(0, 0))
 
 	# Add collision to wall layer
-	var collision_layer = tilemap.collision_layer
 	tilemap.collision_enabled = true
-	tilemap.collision_layer = 1  # Environment layer
+	tilemap.collision_layer = 4  # Environment layer (layer 4)
+	tilemap.collision_mask = 3   # Collide with Player (1) and Enemies (2)
 
 func spawn_player():
 	var player_scene = load("res://src/gameplay/Player.tscn")
@@ -283,5 +286,10 @@ func _on_boss_died(type: String, is_boss_flag: bool):
 
 func _on_exit_body_entered(body):
 	if body.name == "Player" and boss_defeated:
-		# Trigger win screen
-		get_tree().change_scene_to(load("res://src/ui/WinScreen.tscn"))
+		# Show win screen (existing node in Main)
+		var win = get_tree().get_first_node_in_group("win_screen")
+		if win:
+			win.show()
+		else:
+			# Fallback: load separate scene
+			get_tree().change_scene_to(load("res://src/ui/WinScreen.tscn"))

@@ -12,9 +12,8 @@ collision_mask = 0
 [node name="PlayerSpawn" type="Node2D" parent="."]
 position = Vector2(256, 256)
 
-[node name="BossRoomDoor" type="Area2D" parent="."]
+[node name="BossRoomDoor" type="StaticBody2D" parent="."]
 position = Vector2(570, 380)
-monitoring = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="BossRoomDoor"]
 shape = SubResource(1_CircleShape2D)

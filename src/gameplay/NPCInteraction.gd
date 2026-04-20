@@ -23,7 +23,16 @@ func _ready():
 	# Set sprite color based on name
 	var sprite = $Sprite2D
 	if sprite:
-		sprite.modulate = Color(0.8, 0.6, 0.4)  # Beige for NPCs
+		if not sprite.texture:
+			var img = Image.create(16, 16, false, Image.FORMAT_RGBA8)
+			match name:
+				"ArchiveClerk":
+					img.fill(Color(0.8, 0.6, 0.4))  # Beige
+				"WanderingSoul":
+					img.fill(Color(0.6, 0.6, 0.9))  # Light blue
+				_:
+					img.fill(Color(0.8, 0.8, 0.8))  # Light gray
+			sprite.texture = ImageTexture.create_from_image(img)
 
 var player_in_range: bool = false
 

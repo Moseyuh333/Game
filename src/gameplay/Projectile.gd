@@ -8,6 +8,8 @@ var lifetime: float = 3.0
 var age: float = 0.0
 
 func _ready():
+	collision_layer = 6  # Projectiles layer
+	collision_mask = 1  # Player layer
 	body_entered.connect(_on_body_entered)
 
 func _physics_process(delta):

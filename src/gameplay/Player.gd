@@ -12,7 +12,6 @@ var inventory: Inventory = null
 var facing_direction: Vector2 = Vector2.RIGHT
 var invincible: bool = false
 var invincibility_timer: float = 0.0
-var attack_cooldown: float = 0.5
 var attack_timer: float = 0.0
 var speed_multiplier: float = 1.0
 var speed_boost_timer: float = 0.0
@@ -27,6 +26,11 @@ func _ready():
 	# Initialize inventory
 	inventory = Inventory.new()
 	update_sprite_color()
+	# Set hitbox collision mask to Enemies layer (2)
+	hitbox_area.collision_mask = 2
+	# Set body collision: layer 1 (Player), mask 4 (Environment)
+	collision_layer = 1
+	collision_mask = 4
 	# Center camera
 	camera.position_smoothing_enabled = true
 	camera.position_smoothing_speed = 5.0
@@ -81,20 +85,20 @@ func _physics_process(delta):
 		attack_timer = attack_cooldown
 
 func perform_attack():
-	var attack_range = 60.0
-	var attack_arc = deg_to_rad(90)  # 90 degree cone in facing direction
-	var attack_origin = global_position + facing_direction * 20  # Slight forward offset
-
-	# Visual: rotate hitbox area to face direction
-	hitbox_area.rotation = facing_direction.angle()
+	var attack_range = GameManager.stats.get("attack_range", 60)
+	var attack_origin = global_position + facing_direction * 20
 	hitbox_area.position = attack_origin - global_position
-
-	# Temporarily enable hitbox to detect enemies
-	# We'll use a oneshot check
+	hitbox_area.rotation = facing_direction.angle()
+	hitbox_area.monitoring = true
+	# Check immediately for bodies already overlapping
 	var bodies = hitbox_area.get_overlapping_areas()
 	for body in bodies:
 		if body is Area2D and body.has_method("take_damage"):
-			body.take_damage(GameManager.stats.attack, facing_direction * 200.0)
+			var knockback = facing_direction * GameManager.stats.get("knockback_force", 200)
+			body.take_damage(GameManager.stats.attack, knockback)
+	hitbox_area.monitoring = false
+	# Reset attack timer from data
+	attack_timer = GameManager.stats.get("attack_cooldown", 0.5)
 
 func take_damage(amount: int):
 	if invincible:
@@ -102,7 +106,7 @@ func take_damage(amount: int):
 	var actual = GameManager.take_damage(amount)
 	if actual > 0:
 		invincible = true
-		invincibility_timer = 0.5
+		invincibility_timer = GameManager.stats.get("invincibility_duration", 0.5)
 		# Optional: screen shake handled by GameManager or Camera
 	return actual
 
@@ -111,13 +115,14 @@ func apply_speed_boost(multiplier: float, duration: float):
 	speed_boost_timer = duration
 
 func update_sprite_color():
-	# Blue color for player
-	var c = Color(0.2, 0.5, 1.0, 1.0)
-	sprite.modulate = c
-	# Set sprite to a simple rectangle
-	sprite.texture = null
-	sprite.custom_colors = {}
-	# We'll use a ColorRect for the player visual in the scene
+	# Create a simple 16x16 blue square texture if not already set
+	if not sprite.texture:
+		var img = Image.create(16, 16, false, Image.FORMAT_RGBA8)
+		img.fill(Color(0.2, 0.5, 1.0, 1.0))
+		var tex = ImageTexture.create_from_image(img)
+		sprite.texture = tex
+	else:
+		sprite.modulate = Color(0.2, 0.5, 1.0, 1.0)
 
 func _die():
 	if not GameManager.is_alive():

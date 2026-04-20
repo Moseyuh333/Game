@@ -9,7 +9,16 @@ func _ready():
 	enemy_type = "miniboss"
 	is_boss = true
 	sprite.modulate = Color(0.6, 0.0, 1.0)  # Purple
+	if not sprite.texture:
+		var img = Image.create(24, 24, false, Image.FORMAT_RGBA8)
+		img.fill(sprite.modulate)
+		sprite.texture = ImageTexture.create_from_image(img)
 	super._ready()
+	# Setup AOE detection area
+	var aoe_area = $AoeDetectionArea
+	if aoe_area:
+		aoe_area.collision_mask = 1  # Player layer
+		aoe_area.monitoring = true
 
 func _physics_process(delta):
 	if is_stunned:

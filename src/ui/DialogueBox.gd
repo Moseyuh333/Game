@@ -14,6 +14,7 @@ var full_text: String = ""
 var displayed_text: String = ""
 
 func _ready():
+	add_to_group("dialogue")
 	panel.visible = false
 	choices_container.hide()
 

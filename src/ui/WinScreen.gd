@@ -5,6 +5,8 @@ class_name WinScreen
 @onready var quit_button: Button = $Panel/QuitButton
 
 func _ready():
+	add_to_group("win_screen")
+	hide()  # Hide initially
 	label.text = "The Clerk's Ascent — Complete!\nYou have reached the Central Archive."
 	quit_button.pressed.connect(_on_quit)
 

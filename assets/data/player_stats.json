@@ -3,5 +3,9 @@
   "current_hp": 100,
   "attack": 15,
   "defense": 5,
-  "speed": 120
+  "speed": 120,
+  "attack_cooldown": 0.5,
+  "attack_range": 60,
+  "knockback_force": 200,
+  "invincibility_duration": 0.5
 }
