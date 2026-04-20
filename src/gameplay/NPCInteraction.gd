@@ -37,11 +37,11 @@ func _ready():
 var player_in_range: bool = false
 
 func _on_body_entered(body):
-	if body.name == "Player":
+	if body.is_in_group("player"):
 		player_in_range = true
 
 func _on_body_exited(body):
-	if body.name == "Player":
+	if body.is_in_group("player"):
 		player_in_range = false
 
 func _input(event):

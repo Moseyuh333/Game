@@ -39,7 +39,9 @@ func load_items_json() -> Dictionary:
 	var file = FileAccess.open("res://assets/data/items.json", FileAccess.READ)
 	if file:
 		var text = file.get_as_text()
-		var data = JSON.parse_string(text) || {}
+		var data = JSON.parse_string(text)
+		if data == null:
+			data = {}
 		file.close()
 		return data
 	return {}
@@ -49,7 +51,7 @@ func _process(delta):
 	position.y += sin(floating_offset) * 0.5
 
 func _on_body_entered(body):
-	if body.name == "Player":
+	if body.is_in_group("player"):
 		# Give item to player
 		if item_data:
 			if item_data.type == "consumable":

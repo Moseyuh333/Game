@@ -3,8 +3,8 @@ class_name EnemyBase
 
 signal died(enemy_type: String, is_boss: bool)
 
-@onready var sprite: Sprite2D = $Sprite2D
-@onready var hurtbox: HurtBox = $HurtBox
+@onready var sprite: Sprite2D = $Sprite2D if has_node("Sprite2D") else null
+@onready var hurtbox: HurtBox = $HurtBox if has_node("HurtBox") else null
 
 var enemy_type: String = "base"
 var is_boss: bool = false
@@ -19,6 +19,10 @@ var target: Node2D = null
 func _ready():
 	# Load stats based on enemy_type
 	load_enemy_stats()
+	# Ensure hurtbox exists
+	if not hurtbox:
+		push_error("EnemyBase %s has no HurtBox child!" % name)
+		return
 	hurtbox.owner_health = stats.max_hp
 	hurtbox.max_health = stats.max_hp
 	hurtbox.is_enemy = true
@@ -34,8 +38,13 @@ func load_enemy_stats():
 	if file:
 		var text = file.get_as_text()
 		var data = JSON.parse_string(text)
-		if data and data.has(enemy_type):
+		if data == null:
+			data = {}
+		if data.has(enemy_type):
 			stats = data[enemy_type]
+		else:
+			push_warning("Enemy type '%s' not found in data, using defaults" % enemy_type)
+			stats = { "max_hp": 30, "attack": 5, "defense": 0, "speed": 50 }
 		file.close()
 	else:
 		push_warning("Enemy stats not found, using defaults")
@@ -106,7 +115,7 @@ func state_attack(delta):
 	state_timer -= delta
 	if state_timer <= 0:
 		# Deal damage to player
-		if target and target.is_alive():
+		if target and is_instance_valid(target) and target.is_alive():
 			var dmg = max(1, stats.attack - GameManager.stats.defense)
 			target.take_damage(dmg)
 		# Return to chase

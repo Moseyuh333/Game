@@ -74,12 +74,31 @@ func deal_aoe_damage(radius: float, damage: int):
 			body.take_damage(damage, knockback)
 
 func take_damage(amount: int, knockback_force: Vector2 = Vector2.ZERO):
-	# Override to handle phase transition
-	var actual = super.take_damage(amount, knockback_force)
-	if actual > 0 and hurtbox.owner_health <= stats.phase2_threshold and phase == 1:
-		phase = 2
-		current_state = "chase"
-		# Visual cue: sprite flash purple?
+	# Handle phase transition
+	var actual = max(0, amount - stats.defense)
+	if hurtbox:
+		hurtbox.owner_health -= actual
+		# Apply knockback
+		if has_method("apply_knockback"):
+			apply_knockback(knockback_force)
+		elif self is CharacterBody2D:
+			velocity += knockback_force
+		# Visual flash
+		if actual > 0 and sprite:
+			var original = sprite.modulate
+			sprite.modulate = Color.WHITE
+			get_tree().create_timer(0.1).timeout.connect(
+				func():
+					if is_instance_valid(sprite):
+						sprite.modulate = original
+			, CONNECT_ONE_SHOT)
+		# Check death
+		if hurtbox.owner_health <= 0:
+			_on_hurtbox_died()
+		# Check phase transition
+		if actual > 0 and hurtbox.owner_health <= stats.phase2_threshold and phase == 1:
+			phase = 2
+			current_state = "chase"
 	return actual
 
 func _on_hurtbox_died():

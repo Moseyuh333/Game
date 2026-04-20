@@ -82,7 +82,7 @@ func _physics_process(delta):
 	# Attack input
 	if Input.is_action_just_pressed("attack") and attack_timer <= 0:
 		perform_attack()
-		attack_timer = attack_cooldown
+		attack_timer = GameManager.stats.get("attack_cooldown", 0.5)
 
 func perform_attack():
 	var attack_range = GameManager.stats.get("attack_range", 60)
@@ -145,10 +145,6 @@ func _die():
 			if game_over:
 				game_over.show()
 		queue_free()
-
-func _on_health_changed():
-	if not GameManager.is_alive():
-		_die()
 
 func _on_player_died():
 	# Additional cleanup if needed

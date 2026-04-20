@@ -166,56 +166,44 @@ func spawn_enemies():
 	add_child(boss)
 
 func spawn_items():
-	# Place items from item list
+	# Place items from item list using proper scene instantiation
 	var item_positions = [
 		Vector2(350, 200),  # exploration: heal potion
 		Vector2(450, 300),  # speed boost
 		Vector2(150, 420),  # corridor: plating
 	]
 	var item_types = ["heal_potion", "speed_boost", "plating"]
+	var item_scene = load("res://src/gameplay/ItemPickup.tscn")
 	for i in range(item_positions.size()):
-		var pickup = Area2D.new()
-		pickup.name = "ItemPickup_%s" % item_types[i]
-		var col = CollisionShape2D.new()
-		col.shape = CircleShape2D.new()
-		col.shape.radius = 16
-		pickup.add_child(col)
-		var sprite = Sprite2D.new()
-		sprite.modulate = Color.GREEN if item_types[i] == "heal_potion" else Color.CYAN
-		sprite.texture = null
-		sprite.custom_colors = {}
-		# Simple rect
-		sprite.modulate = Color(0,1,0) if i==0 else (Color(0,1,1) if i==1 else Color(0.5))
-		pickup.add_child(sprite)
-		pickup.set_script(load("res://src/gameplay/ItemPickup.gd"))
-		pickup.item_id = item_types[i]
-		pickup.global_position = item_positions[i]
-		add_child(pickup)
+		if item_scene:
+			var pickup = item_scene.instantiate()
+			pickup.name = "ItemPickup_%s" % item_types[i]
+			pickup.item_id = item_types[i]
+			pickup.global_position = item_positions[i]
+			add_child(pickup)
 
-	# Soul fragments (5 total)
+	# Soul fragments (5 total) - also use scene
 	for i in range(5):
-		var fragment = Area2D.new()
-		fragment.name = "SoulFragment%d" % i
-		var col = CollisionShape2D.new()
-		col.shape = CircleShape2D.new()
-		col.shape.radius = 12
-		fragment.add_child(col)
-		var sprite = Sprite2D.new()
-		sprite.modulate = Color(1, 1, 1)
-		fragment.add_child(sprite)
-		fragment.set_script(load("res://src/gameplay/ItemPickup.gd"))
-		fragment.item_id = "soul_fragment"
-		# Position near enemies: 2 near grunts, 2 near ranged, 1 near boss
-		var positions = [Vector2(380,230), Vector2(420,270), Vector2(130,360), Vector2(170,400), Vector2(580,360)]
-		fragment.global_position = positions[i]
-		add_child(fragment)
+		if item_scene:
+			var fragment = item_scene.instantiate()
+			fragment.name = "SoulFragment%d" % i
+			fragment.item_id = "soul_fragment"
+			# Position near enemies: 2 near grunts, 2 near ranged, 1 near boss
+			var positions = [Vector2(380,230), Vector2(420,270), Vector2(130,360), Vector2(170,400), Vector2(580,360)]
+			fragment.global_position = positions[i]
+			add_child(fragment)
 
 func spawn_npcs():
 	# Archive Clerk in NPC room (around 280, 380)
 	var npc1 = StaticBody2D.new()
 	npc1.name = "ArchiveClerk"
+	npc1.add_to_group("npcs")
 	var sprite = Sprite2D.new()
 	sprite.modulate = Color(0.8, 0.6, 0.4)
+	if not sprite.texture:
+		var img = Image.create(16, 16, false, Image.FORMAT_RGBA8)
+		img.fill(sprite.modulate)
+		sprite.texture = ImageTexture.create_from_image(img)
 	npc1.add_child(sprite)
 	var col = CollisionShape2D.new()
 	col.shape = CircleShape2D.new()
@@ -239,8 +227,13 @@ func spawn_npcs():
 	# Wandering Soul in exploration area (around 500, 150)
 	var npc2 = StaticBody2D.new()
 	npc2.name = "WanderingSoul"
+	npc2.add_to_group("npcs")
 	var sprite2 = Sprite2D.new()
 	sprite2.modulate = Color(0.6, 0.6, 0.9)
+	if not sprite2.texture:
+		var img2 = Image.create(16, 16, false, Image.FORMAT_RGBA8)
+		img2.fill(sprite2.modulate)
+		sprite2.texture = ImageTexture.create_from_image(img2)
 	npc2.add_child(sprite2)
 	var col3 = CollisionShape2D.new()
 	col3.shape = CircleShape2D.new()
@@ -285,7 +278,7 @@ func _on_boss_died(type: String, is_boss_flag: bool):
 			tween.tween_property(dark, "color:a", 0.0, 2.0)
 
 func _on_exit_body_entered(body):
-	if body.name == "Player" and boss_defeated:
+	if body.is_in_group("player") and boss_defeated:
 		# Fade out then show win screen
 		var fade = get_tree().get_first_node_in_group("fade_transition")
 		if fade and fade.has_method("fade_out"):

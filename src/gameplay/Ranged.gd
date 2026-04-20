@@ -58,6 +58,8 @@ func state_flee(delta):
 			current_state = "chase"
 
 func fire_projectile():
+	if not target or not is_instance_valid(target):
+		return
 	var proj_scene = load("res://src/gameplay/Projectile.tscn")
 	if proj_scene:
 		var proj = proj_scene.instantiate()

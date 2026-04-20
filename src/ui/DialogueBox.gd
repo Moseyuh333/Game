@@ -15,6 +15,7 @@ var displayed_text: String = ""
 
 func _ready():
 	add_to_group("dialogue")
+	add_to_group("ui")  # Also add to UI group for convenience
 	panel.visible = false
 	choices_container.hide()
 
