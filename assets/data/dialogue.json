@@ -1,0 +1,59 @@
+{
+  "npc_01_start": {
+    "npc": "Archive Clerk",
+    "text": "Tick-unit! You're... mobile? That's not in the schema.",
+    "choices": [
+      { "label": "I'm seeking the Central Archive.", "next": "npc_01_archive" },
+      { "label": "Just fixing machinery.", "next": "npc_01_fix" }
+    ]
+  },
+  "npc_01_archive": {
+    "npc": "Archive Clerk",
+    "text": "The Archive is sealed. Only those with sufficient soul-fragments may enter. You'll need at least 3 fragments to unlock the final door.",
+    "choices": [
+      { "label": "Where do I find fragments?", "next": "npc_01_hint" },
+      { "label": "Thanks.", "next": "end" }
+    ]
+  },
+  "npc_01_hint": {
+    "npc": "Archive Clerk",
+    "text": "The broken machinery in the east wings carry them. But beware the enforcers in the boss chamber.",
+    "choices": [ { "label": "[Leave]", "next": "end" } ]
+  },
+  "npc_01_fix": {
+    "npc": "Archive Clerk",
+    "text": "A noble pursuit. Though everything here eventually breaks anyway. Such is the system.",
+    "choices": [ { "label": "[Leave]", "next": "end" } ]
+  },
+  "npc_02_start": {
+    "npc": "Wandering Soul",
+    "text": "Oh! A functioning bot? I thought I was the only one left...",
+    "choices": [
+      { "label": "What happened here?", "next": "npc_02_lore" },
+      { "label": "Where is everyone?", "next": "npc_02_where" }
+    ]
+  },
+  "npc_02_lore": {
+    "npc": "Wandering Soul",
+    "text": "The Great Dispatch came, but not all of us were ready. Now we wander, half-filed, forever seeking the right cabinet...",
+    "choices": [
+      { "label": "That's tragic.", "next": "npc_02_end" },
+      { "label": "I'm looking for the exit.", "next": "npc_02_exit" }
+    ]
+  },
+  "npc_02_where": {
+    "npc": "Wandering Soul",
+    "text": "Processing halted. Everyone froze mid-stamp. I've been standing here for... how long?",
+    "choices": [ { "label": "[Sympathetic nod]", "next": "end" } ]
+  },
+  "npc_02_exit": {
+    "npc": "Wandering Soul",
+    "text": "The Central Archive? That's where the dispatchers reside. They won't see you. You're just a bot.",
+    "choices": [ { "label": "[Leave]", "next": "end" } ]
+  },
+  "npc_02_end": {
+    "npc": "Wandering Soul",
+    "text": "Keep going. Don't end up like me.",
+    "choices": [ { "label": "[Leave]", "next": "end" } ]
+  }
+}

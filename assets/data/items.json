@@ -1,0 +1,55 @@
+{
+  "heal_potion": {
+    "id": "heal_potion",
+    "name": "Minor Repair Kit",
+    "type": "consumable",
+    "effect": "heal",
+    "value": 50,
+    "rarity": "common"
+  },
+  "speed_boost": {
+    "id": "speed_boost",
+    "name": "Clockwork Accelerant",
+    "type": "consumable",
+    "effect": "speed_multiply",
+    "value": 2.0,
+    "duration": 10.0,
+    "rarity": "uncommon"
+  },
+  "wrench": {
+    "id": "wrench",
+    "name": "Standard Wrench",
+    "type": "weapon",
+    "slot": "weapon",
+    "attack_delta": 0,
+    "rarity": "common"
+  },
+  "cutter": {
+    "id": "cutter",
+    "name": "Precision Cutter",
+    "type": "weapon",
+    "slot": "weapon",
+    "attack_delta": 10,
+    "rarity": "rare"
+  },
+  "plating": {
+    "id": "plating",
+    "name": "Reinforced Plating",
+    "type": "armor",
+    "slot": "armor",
+    "defense_delta": 5,
+    "rarity": "uncommon"
+  },
+  "soul_fragment": {
+    "id": "soul_fragment",
+    "name": "Soul Fragment",
+    "type": "key",
+    "rarity": "common"
+  },
+  "boss_soul_fragment": {
+    "id": "boss_soul_fragment",
+    "name": "Greater Soul Fragment",
+    "type": "key",
+    "rarity": "rare"
+  }
+}

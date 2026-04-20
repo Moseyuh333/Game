@@ -1,0 +1,44 @@
+{
+  "grunt": {
+    "max_hp": 30,
+    "attack": 8,
+    "defense": 0,
+    "speed": 60,
+    "chase_speed": 90,
+    "chase_range": 150,
+    "patrol_radius": 100,
+    "attack_interval": 1.0,
+    "drop_table": [
+      { "item_id": "soul_fragment", "weight": 100 },
+      { "item_id": "heal_potion", "weight": 25 }
+    ]
+  },
+  "ranged": {
+    "max_hp": 20,
+    "attack": 12,
+    "defense": 0,
+    "speed": 40,
+    "projectile_speed": 150,
+    "shoot_interval": 2.0,
+    "shoot_range": 300,
+    "flee_range": 50,
+    "drop_table": [
+      { "item_id": "soul_fragment", "weight": 100 }
+    ]
+  },
+  "miniboss": {
+    "max_hp": 150,
+    "attack": 20,
+    "defense": 5,
+    "speed": 50,
+    "phase2_threshold": 75,
+    "charge_speed": 200,
+    "slam_interval": 1.5,
+    "spin_interval": 5.0,
+    "aoe_radius": 80,
+    "drop_table": [
+      { "item_id": "boss_soul_fragment", "weight": 100 },
+      { "item_id": "cutter", "weight": 100 }
+    ]
+  }
+}

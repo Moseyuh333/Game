@@ -1,0 +1,33 @@
+[gd_scene load_steps=2 format=3 uid="uid://b2f8g7h3j1k9m"]
+[ext_resource path="res://src/gameplay/Level01.gd" type="Script" id=1]
+
+[node name="Level01" type="Node2D"]
+script = ExtResource(1)
+
+[node name="TileMap" type="TileMap" parent="."]
+tile_set = null
+collision_layer = 1
+collision_mask = 0
+
+[node name="PlayerSpawn" type="Node2D" parent="."]
+position = Vector2(256, 256)
+
+[node name="BossRoomDoor" type="Area2D" parent="."]
+position = Vector2(570, 380)
+monitoring = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="BossRoomDoor"]
+shape = SubResource(1_CircleShape2D)
+
+[node name="ExitPortal" type="Area2D" parent="."]
+position = Vector2(650, 380)
+monitoring = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ExitPortal"]
+shape = SubResource(2_CircleShape2D)
+
+[sub_resource type="CircleShape2D" id=1_CircleShape2D]
+radius = 16.0
+
+[sub_resource type="CircleShape2D" id=2_CircleShape2D]
+radius = 24.0
