@@ -286,10 +286,15 @@ func _on_boss_died(type: String, is_boss_flag: bool):
 
 func _on_exit_body_entered(body):
 	if body.name == "Player" and boss_defeated:
-		# Show win screen (existing node in Main)
-		var win = get_tree().get_first_node_in_group("win_screen")
-		if win:
-			win.show()
+		# Fade out then show win screen
+		var fade = get_tree().get_first_node_in_group("fade_transition")
+		if fade and fade.has_method("fade_out"):
+			fade.fade_out(0.5, Callable(func():
+				var win = get_tree().get_first_node_in_group("win_screen")
+				if win:
+					win.show()
+			))
 		else:
-			# Fallback: load separate scene
-			get_tree().change_scene_to(load("res://src/ui/WinScreen.tscn"))
+			var win = get_tree().get_first_node_in_group("win_screen")
+			if win:
+				win.show()

@@ -1,0 +1,13 @@
+[gd_scene load_steps=2 format=3 uid="uid://d4e5f6g7h8i9"]
+[ext_resource path="res://src/gameplay/DeathParticles.gd" type="Script" id=1]
+
+[node name="DeathParticles" type="CPUParticles2D"]
+amount = 8
+lifetime = 0.3
+explosiveness = 0.8
+spread = 60.0
+initial_velocity_min = 30.0
+initial_velocity_max = 60.0
+gravity = Vector2(0, 0)
+color = Color(1, 1, 1, 1)
+script = ExtResource(1)

@@ -107,8 +107,13 @@ func take_damage(amount: int):
 	if actual > 0:
 		invincible = true
 		invincibility_timer = GameManager.stats.get("invincibility_duration", 0.5)
-		# Optional: screen shake handled by GameManager or Camera
+		# Trigger screen shake
+		if camera and camera.has_method("shake"):
+			camera.shake(0.2, 5.0)
 	return actual
+
+func is_alive() -> bool:
+	return GameManager.is_alive()
 
 func apply_speed_boost(multiplier: float, duration: float):
 	speed_multiplier = multiplier
@@ -127,13 +132,18 @@ func update_sprite_color():
 func _die():
 	if not GameManager.is_alive():
 		player_died.emit()
-		# Show game over screen
-		var game_over = get_tree().get_first_node_in_group("game_over")
-		if game_over:
-			game_over.show()
+		# Fade out then show game over
+		var fade = get_tree().get_first_node_in_group("fade_transition")
+		if fade and fade.has_method("fade_out"):
+			fade.fade_out(0.5, Callable(func():
+				var game_over = get_tree().get_first_node_in_group("game_over")
+				if game_over:
+					game_over.show()
+			))
 		else:
-			# Fallback: just quit
-			get_tree().quit()
+			var game_over = get_tree().get_first_node_in_group("game_over")
+			if game_over:
+				game_over.show()
 		queue_free()
 
 func _on_health_changed():

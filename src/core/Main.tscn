@@ -1,8 +1,9 @@
-[gd_scene load_steps=5 format=3 uid="uid://a1b2c3d4e5f6"]
+[gd_scene load_steps=7 format=3 uid="uid://a1b2c3d4e5f6"]
 [ext_resource path="res://src/core/GameManager.gd" type="Script" id=1]
 [ext_resource path="res://src/core/SaveManager.gd" type="Script" id=2]
 [ext_resource path="res://src/ui/DialogueManager.gd" type="Script" id=3]
 [ext_resource path="res://src/gameplay/Level01.tscn" type="PackedScene" id=4]
+[ext_resource path="res://src/core/FadeTransition.gd" type="Script" id=5]
 
 [node name="Main" type="Node2D"]
 
@@ -14,6 +15,17 @@ script = ExtResource(2)
 
 [node name="DialogueManager" type="Node" parent="."]
 script = ExtResource(3)
+
+[node name="FadeLayer" type="CanvasLayer" parent="."]
+layer = 200
+
+[node name="Fade" type="ColorRect" parent="FadeLayer"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color(0, 0, 0, 1)
+script = ExtResource(5)
 
 [node name="Level01" parent="." instance=ExtResource(4)]
 

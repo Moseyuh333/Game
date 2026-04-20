@@ -126,6 +126,15 @@ func state_flee(delta):
 	velocity = flee_dir * stats.speed
 
 func _on_hurtbox_died():
+	# Spawn death particles
+	var particle_scene = load("res://src/gameplay/DeathParticles.tscn")
+	if particle_scene:
+		var particles = particle_scene.instantiate()
+		particles.global_position = global_position
+		# Match particle color to enemy sprite color
+		if sprite:
+			particles.color = sprite.modulate
+		get_parent().add_child(particles)
 	# Drop loot
 	drop_loot()
 	# Emit died signal
