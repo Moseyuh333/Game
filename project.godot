@@ -6,17 +6,17 @@
 ;   [section] ; section goes between []
 ;   param=value ; assign values to parameters
 
-config_version=4
+config_version=5
 
 [application]
 
 config/name="The Clerk's Ascent"
 config/description="A tiny clockwork repair bot must navigate a frozen bureaucratic afterlife, fixing broken machinery and gathering soul-fragments to earn its passage to the next realm."
-config/executable_name="The Clerks Ascent"
 config/tags=PackedStringArray("rpg", "adventure", "indie")
 run/main_scene="res://src/core/Main.tscn"
 config/features=PackedStringArray("4.6", "Forward Plus")
 config/icon="res://icon.svg"
+config/executable_name="The Clerks Ascent"
 
 [autoload]
 
@@ -28,10 +28,8 @@ SaveManager="*res://src/core/SaveManager.gd"
 
 window/size/viewport_width=1024
 window/size/viewport_height=768
-window/size/resizable=true
 window/size/initial_position=0
 window/stretch/mode="canvas_items"
-window/stretch/aspect="keep"
 
 [input]
 

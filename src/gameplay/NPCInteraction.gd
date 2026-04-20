@@ -29,9 +29,9 @@ func _ready():
 				"ArchiveClerk":
 					img.fill(Color(0.8, 0.6, 0.4))  # Beige
 				"WanderingSoul":
-					img.fill(Color(0.6, 0.6, 0.9))  # Light blue
+					img.fill(Color(0.6, 0.6, 0.9))  # Light3D blue
 				_:
-					img.fill(Color(0.8, 0.8, 0.8))  # Light gray
+					img.fill(Color(0.8, 0.8, 0.8))  # Light3D gray
 			sprite.texture = ImageTexture.create_from_image(img)
 
 var player_in_range: bool = false
