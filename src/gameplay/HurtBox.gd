@@ -11,13 +11,9 @@ func take_damage(amount: int, knockback_force: Vector2):
 	var actual = max(0, amount)  # Simple for now; defense handled at enemy level
 	owner_health -= actual
 	# Apply knockback to the parent body
-	if has_method("apply_knockback"):
-		apply_knockback(knockback_force)
-	else:
-		# Knockback parent (enemy)
-		var parent = get_parent()
-		if parent and parent is CharacterBody2D:
-			parent.velocity += knockback_force
+	var parent = get_parent()
+	if parent and parent is CharacterBody2D:
+		parent.velocity += knockback_force
 	# Visual flash on enemy sprite
 	if actual > 0:
 		var parent_node = get_parent()

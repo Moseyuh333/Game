@@ -78,10 +78,8 @@ func take_damage(amount: int, knockback_force: Vector2 = Vector2.ZERO):
 	var actual = max(0, amount - stats.defense)
 	if hurtbox:
 		hurtbox.owner_health -= actual
-		# Apply knockback
-		if has_method("apply_knockback"):
-			apply_knockback(knockback_force)
-		elif self is CharacterBody2D:
+		# Apply knockback directly
+		if self is CharacterBody2D:
 			velocity += knockback_force
 		# Visual flash
 		if actual > 0 and sprite:

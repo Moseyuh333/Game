@@ -13,9 +13,8 @@ config_version=5
 config/name="The Clerk's Ascent"
 config/description="A tiny clockwork repair bot must navigate a frozen bureaucratic afterlife, fixing broken machinery and gathering soul-fragments to earn its passage to the next realm."
 config/tags=PackedStringArray("rpg", "adventure", "indie")
-run/main_scene="res://src/core/Main.tscn"
-config/features=PackedStringArray("4.6", "Forward Plus")
-config/icon="res://icon.svg"
+run/main_scene="uid://a1b2c3d4e5f6"
+config/features=PackedStringArray("4.6")
 config/executable_name="The Clerks Ascent"
 
 [autoload]
@@ -85,4 +84,4 @@ inventory={
 
 [rendering]
 
-renderer/rendering_method="Forward Plus"
+renderer/rendering_method="Forward+"

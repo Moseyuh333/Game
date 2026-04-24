@@ -20,7 +20,7 @@ func fade_in(duration: float = 0.5):
 	_tween = create_tween()
 	_tween.tween_property(self, "color:a", 0.0, duration).from(1.0)
 
-func fade_out(duration: float = 0.5, then: Callable = null):
+func fade_out(duration: float = 0.5, then = null):
 	if _tween:
 		_tween.kill()
 	_tween = create_tween()
