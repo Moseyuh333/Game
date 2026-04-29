@@ -6,8 +6,8 @@ class_name WinScreen
 
 func _ready():
 	add_to_group("win_screen")
-	hide()  # Hide initially
-	label.text = "The Clerk's Ascent — Complete!\nYou have reached the Central Archive."
+	hide()
+	label.text = "The Clerk's Ascent - Complete!\nYou have reached the Central Archive."
 	quit_button.pressed.connect(_on_quit)
 
 func _on_quit():

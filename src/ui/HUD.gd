@@ -59,11 +59,20 @@ func _process(delta):
 	# Update hotbar visuals
 	for i in range(5):
 		var slot_btn = hotbar_grid.get_child(i)
-		var item = inventory.get_item(i)
-		if item:
-			slot_btn.text = item.name
+		if i == 3 and player.dash_cooldown_timer > 0:
+			slot_btn.text = "Dash %.1f" % player.dash_cooldown_timer
+		elif i == 3:
+			slot_btn.text = "Shift"
+		elif i == 4 and player.skill_cooldown_timer > 0:
+			slot_btn.text = "Q %.1f" % player.skill_cooldown_timer
+		elif i == 4:
+			slot_btn.text = "Q Pulse"
 		else:
-			slot_btn.text = "[%d]" % (i+1)
+			var item = inventory.get_item(i)
+			if item:
+				slot_btn.text = item.name
+			else:
+				slot_btn.text = "[%d]" % (i+1)
 
 func _on_hotbar_pressed(index: int):
 	var player = get_tree().get_first_node_in_group("player")

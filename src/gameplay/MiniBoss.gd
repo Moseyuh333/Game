@@ -73,9 +73,12 @@ func state_boss_attack(delta):
 		current_state = "chase"
 
 func deal_aoe_damage(radius: float, damage: int):
-	# Find all HurtBoxes in radius
-	var bodies = $AoeDetectionArea.get_overlapping_areas() if has_node("AoeDetectionArea") else []
+	var bodies = $AoeDetectionArea.get_overlapping_bodies() if has_node("AoeDetectionArea") else []
 	for body in bodies:
+		if body.is_in_group("player") and body.has_method("take_damage"):
+			body.take_damage(damage)
+	var hurtboxes = $AoeDetectionArea.get_overlapping_areas() if has_node("AoeDetectionArea") else []
+	for body in hurtboxes:
 		if body is HurtBox and body.owner_health > 0:
 			var knockback = (body.global_position - global_position).normalized() * 300.0
 			body.take_damage(damage, knockback)

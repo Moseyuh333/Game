@@ -24,6 +24,8 @@ func _physics_process(delta):
 			state_flee(delta)
 		_:
 			super._physics_process(delta)
+			return
+	move_and_slide()
 
 func state_ranged(delta):
 	# Keep distance from player and shoot

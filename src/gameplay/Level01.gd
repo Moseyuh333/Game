@@ -13,6 +13,7 @@ var arena_dressing_script = preload("res://src/visuals/ArenaDressing.gd")
 func _ready():
 	add_arena_dressing()
 	build_level()
+	add_wall_blockers()
 	spawn_player()
 	spawn_enemies()
 	spawn_items()
@@ -146,6 +147,43 @@ func build_level():
 			tilemap.set_cell(0, Vector2i(x, y), tile_id, Vector2i(0, 0))
 
 	# Add collision to wall layer
+
+func add_wall_blockers():
+	var blockers = Node2D.new()
+	blockers.name = "WallBlockers"
+	add_child(blockers)
+	var walls = [
+		Rect2(150, 150, 360, 24),
+		Rect2(150, 150, 24, 360),
+		Rect2(150, 486, 360, 24),
+		Rect2(486, 150, 24, 210),
+		Rect2(620, 150, 1180, 24),
+		Rect2(620, 150, 24, 700),
+		Rect2(620, 826, 1180, 24),
+		Rect2(1776, 150, 24, 700),
+		Rect2(150, 960, 1030, 24),
+		Rect2(150, 960, 24, 410),
+		Rect2(150, 1346, 1030, 24),
+		Rect2(1156, 960, 24, 170),
+		Rect2(1280, 960, 520, 24),
+		Rect2(1280, 960, 24, 410),
+		Rect2(1280, 1346, 520, 24),
+		Rect2(1776, 960, 24, 410),
+	]
+	for wall in walls:
+		add_wall_blocker(blockers, wall)
+
+func add_wall_blocker(parent: Node, rect: Rect2):
+	var body = StaticBody2D.new()
+	body.collision_layer = 4
+	body.collision_mask = 0
+	body.position = rect.position + rect.size * 0.5
+	var shape = CollisionShape2D.new()
+	var rectangle = RectangleShape2D.new()
+	rectangle.size = rect.size
+	shape.shape = rectangle
+	body.add_child(shape)
+	parent.add_child(body)
 
 func spawn_player():
 	var player_scene = load("res://src/gameplay/Player.tscn")
@@ -309,3 +347,7 @@ func _on_exit_body_entered(body):
 			var win = get_tree().get_first_node_in_group("win_screen")
 			if win:
 				win.show()
+	elif body.is_in_group("player"):
+		var hud = get_tree().get_first_node_in_group("hud")
+		if hud and hud.has_method("show_notification"):
+			hud.show_notification("Defeat the MiniBoss first.")

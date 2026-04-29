@@ -15,6 +15,7 @@ var state_timer: float = 0.0
 var patrol_center: Vector2 = Vector2.ZERO
 var patrol_target: Vector2 = Vector2.ZERO
 var target: Node2D = null
+var attack_range: float = 42.0
 
 func _ready():
 	# Load stats based on enemy_type
@@ -23,6 +24,7 @@ func _ready():
 	if not hurtbox:
 		push_error("EnemyBase %s has no HurtBox child!" % name)
 		return
+	add_to_group("enemies")
 	hurtbox.owner_health = stats.max_hp
 	hurtbox.max_health = stats.max_hp
 	hurtbox.is_enemy = true
@@ -116,8 +118,9 @@ func state_attack(delta):
 	if state_timer <= 0:
 		# Deal damage to player
 		if target and is_instance_valid(target) and target.is_alive():
-			var dmg = max(1, stats.attack - GameManager.stats.defense)
-			target.take_damage(dmg)
+			if global_position.distance_to(target.global_position) <= attack_range:
+				var dmg = max(1, stats.attack - GameManager.stats.defense)
+				target.take_damage(dmg)
 		# Return to chase
 		current_state = "chase"
 

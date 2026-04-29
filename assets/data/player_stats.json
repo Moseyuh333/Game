@@ -6,6 +6,13 @@
   "speed": 120,
   "attack_cooldown": 0.5,
   "attack_range": 60,
+  "attack_arc_degrees": 110,
   "knockback_force": 200,
-  "invincibility_duration": 0.5
+  "invincibility_duration": 0.5,
+  "dash_speed": 420,
+  "dash_duration": 0.16,
+  "dash_cooldown": 0.75,
+  "skill_damage": 25,
+  "skill_radius": 120,
+  "skill_cooldown": 4.0
 }
