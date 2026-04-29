@@ -8,7 +8,10 @@ func load_dialogue():
 	var file = FileAccess.open("res://assets/data/dialogue.json", FileAccess.READ)
 	if file:
 		var text = file.get_as_text()
-		dialogue_data = JSON.parse_string(text) || {}
+		var data = JSON.parse_string(text)
+		if data == null:
+			data = {}
+		dialogue_data = data
 		file.close()
 	else:
 		push_warning("Dialogue data file not found")

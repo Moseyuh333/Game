@@ -121,9 +121,6 @@ func build_level():
 			tilemap.set_cell(0, Vector2i(x, y), tile_id, Vector2i(0, 0))
 
 	# Add collision to wall layer
-	tilemap.collision_enabled = true
-	tilemap.collision_layer = 4  # Environment layer (layer 4)
-	tilemap.collision_mask = 3   # Collide with Player (1) and Enemies (2)
 
 func spawn_player():
 	var player_scene = load("res://src/gameplay/Player.tscn")
@@ -199,6 +196,7 @@ func spawn_npcs():
 	npc1.name = "ArchiveClerk"
 	npc1.add_to_group("npcs")
 	var sprite = Sprite2D.new()
+	sprite.name = "Sprite2D"
 	sprite.modulate = Color(0.8, 0.6, 0.4)
 	if not sprite.texture:
 		var img = Image.create(16, 16, false, Image.FORMAT_RGBA8)
@@ -229,6 +227,7 @@ func spawn_npcs():
 	npc2.name = "WanderingSoul"
 	npc2.add_to_group("npcs")
 	var sprite2 = Sprite2D.new()
+	sprite2.name = "Sprite2D"
 	sprite2.modulate = Color(0.6, 0.6, 0.9)
 	if not sprite2.texture:
 		var img2 = Image.create(16, 16, false, Image.FORMAT_RGBA8)

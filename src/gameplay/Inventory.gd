@@ -1,4 +1,4 @@
-extends Node
+extends RefCounted
 class_name Inventory
 
 signal inventory_updated
@@ -9,10 +9,14 @@ signal item_used(item_data: Dictionary)
 var slots: Array = []  # Array of Dictionary item_data or null
 var max_slots: int = 10
 
-func _ready():
+func _init():
+	_initialize_slots()
+
+func _initialize_slots():
 	slots.resize(max_slots)
 	for i in range(max_slots):
-		slots[i] = null
+		if i >= slots.size() or slots[i] == null:
+			slots[i] = null
 
 func add_item(item_data: Dictionary) -> bool:
 	# Check if stackable? For now, non-stackable
@@ -70,7 +74,7 @@ func apply_consumable(item: Dictionary, player):
 func get_item(slot_index: int) -> Dictionary:
 	if slot_index < 0 or slot_index >= slots.size():
 		return {}
-	return slots[slot_index] or {}
+	return slots[slot_index] if slots[slot_index] != null else {}
 
 func is_full() -> bool:
 	for slot in slots:

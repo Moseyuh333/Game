@@ -81,7 +81,3 @@ inventory={
 2d_physics/layer_4="Environment"
 2d_physics/layer_5="UI"
 2d_physics/layer_6="Projectiles"
-
-[rendering]
-
-renderer/rendering_method="Forward+"

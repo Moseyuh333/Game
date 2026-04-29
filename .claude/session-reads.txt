@@ -25,3 +25,16 @@ D:\New folder\Game\src\ui\GameOver.gd
 D:\New folder\Game\src\core\ShakeCamera.gd
 D:\New folder\Game\src\gameplay\HurtBox.gd
 D:\New folder\Game\src\ui\DamageNumber.gd
+C:\Users\MINH KHOI\.claude\skills\do\haiku-router-prompt.md
+D:\New folder\Game\CCGS Skill Testing Framework\agents\leads\lead-programmer.md
+D:\New folder\Game\CCGS Skill Testing Framework\catalog.yaml
+D:\New folder\Game\CCGS Skill Testing Framework\skills\analysis\code-review.md
+D:\New folder\Game\CCGS Skill Testing Framework\skills\utility\hotfix.md
+D:\New folder\Game\.claude\agents\godot-gdscript-specialist.md
+D:\New folder\Game\production\session-logs\session-log.md
+D:\New folder\Game\node_2d.tscn
+D:\New folder\Game\src\ui\InventoryUI.tscn
+D:\New folder\Game\src\ui\DialogueBox.tscn
+D:\New folder\Game\src\ui\InventoryUI.gd
+D:\New folder\Game\src\ui\GameOver.tscn
+D:\New folder\Game\src\ui\WinScreen.tscn
