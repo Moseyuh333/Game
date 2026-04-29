@@ -7,8 +7,11 @@ class_name Level01
 @onready var exit_portal: Area2D = $ExitPortal
 
 var boss_defeated: bool = false
+var procedural_sprite_script = preload("res://src/visuals/ProceduralSprite.gd")
+var arena_dressing_script = preload("res://src/visuals/ArenaDressing.gd")
 
 func _ready():
+	add_arena_dressing()
 	build_level()
 	spawn_player()
 	spawn_enemies()
@@ -18,7 +21,29 @@ func _ready():
 	# Ensure door is environment collision
 	if boss_room_door:
 		boss_room_door.collision_layer = 4
+		add_door_visual()
+	add_portal_visual()
 	exit_portal.body_entered.connect(_on_exit_body_entered)
+
+func add_arena_dressing():
+	var dressing = arena_dressing_script.new()
+	dressing.name = "ArenaDressing"
+	add_child(dressing)
+
+func add_door_visual():
+	var visual = procedural_sprite_script.new()
+	visual.name = "DoorVisual"
+	visual.visual_kind = "armor"
+	visual.scale = Vector2(1.8, 2.6)
+	boss_room_door.add_child(visual)
+
+func add_portal_visual():
+	var visual = procedural_sprite_script.new()
+	visual.name = "PortalVisual"
+	visual.visual_kind = "portal"
+	visual.scale = Vector2(1.8, 2.2)
+	visual.z_index = -1
+	exit_portal.add_child(visual)
 
 func build_level():
 	# Create a simple tilemap with floor and walls
@@ -197,11 +222,8 @@ func spawn_npcs():
 	npc1.add_to_group("npcs")
 	var sprite = Sprite2D.new()
 	sprite.name = "Sprite2D"
-	sprite.modulate = Color(0.8, 0.6, 0.4)
-	if not sprite.texture:
-		var img = Image.create(16, 16, false, Image.FORMAT_RGBA8)
-		img.fill(sprite.modulate)
-		sprite.texture = ImageTexture.create_from_image(img)
+	sprite.set_script(procedural_sprite_script)
+	sprite.visual_kind = "npc_clerk"
 	npc1.add_child(sprite)
 	var col = CollisionShape2D.new()
 	col.shape = CircleShape2D.new()
@@ -228,11 +250,8 @@ func spawn_npcs():
 	npc2.add_to_group("npcs")
 	var sprite2 = Sprite2D.new()
 	sprite2.name = "Sprite2D"
-	sprite2.modulate = Color(0.6, 0.6, 0.9)
-	if not sprite2.texture:
-		var img2 = Image.create(16, 16, false, Image.FORMAT_RGBA8)
-		img2.fill(sprite2.modulate)
-		sprite2.texture = ImageTexture.create_from_image(img2)
+	sprite2.set_script(procedural_sprite_script)
+	sprite2.visual_kind = "npc_soul"
 	npc2.add_child(sprite2)
 	var col3 = CollisionShape2D.new()
 	col3.shape = CircleShape2D.new()

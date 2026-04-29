@@ -11,14 +11,11 @@ offset_top = 10.0
 offset_right = 1010.0
 offset_bottom = 100.0
 
-[node name="HPBar" type="TextureProgressBar" parent="HBoxContainer"]
+[node name="HPBar" type="ProgressBar" parent="HBoxContainer"]
 custom_minimum_size = Vector2(200, 32)
 value = 100
 max_value = 100
-fill_mode = 1
-texture_over = null
-texture_under = null
-texture_progress = null
+text = "HP"
 
 [node name="HotbarGrid" type="GridContainer" parent="HBoxContainer"]
 columns = 5

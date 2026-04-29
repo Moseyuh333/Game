@@ -8,7 +8,9 @@ var is_stunned: bool = false
 func _ready():
 	enemy_type = "miniboss"
 	is_boss = true
-	sprite.modulate = Color(0.6, 0.0, 1.0)  # Purple
+	sprite.modulate = Color.WHITE
+	if sprite.has_method("set_visual_kind"):
+		sprite.set_visual_kind("boss")
 	if not sprite.texture:
 		var img = Image.create(24, 24, false, Image.FORMAT_RGBA8)
 		img.fill(sprite.modulate)
@@ -37,10 +39,15 @@ func _physics_process(delta):
 
 func state_boss_phase1(delta):
 	if not target or not target.is_alive():
-		target = null
-		current_state = "patrol"
-		velocity = Vector2.ZERO
-		return
+		var player = get_tree().get_first_node_in_group("player")
+		if player and player.is_alive():
+			target = player
+			current_state = "chase"
+		else:
+			target = null
+			current_state = "patrol"
+			velocity = Vector2.ZERO
+			return
 
 	var dist = global_position.distance_to(target.global_position)
 	if dist <= 40:

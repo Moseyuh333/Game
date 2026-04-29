@@ -1,6 +1,7 @@
-[gd_scene load_steps=6 format=3 uid="uid://t3v5w7x2y4z2"]
+[gd_scene load_steps=7 format=3 uid="uid://t3v5w7x2y4z2"]
 [ext_resource path="res://src/gameplay/MiniBoss.gd" type="Script" id=1]
 [ext_resource path="res://src/gameplay/HurtBox.gd" type="Script" id=2]
+[ext_resource path="res://src/visuals/ProceduralSprite.gd" type="Script" id=3]
 
 [sub_resource type="RectangleShape2D" id="1_RectangleShape2D"]
 size = Vector2(30, 48)
@@ -16,6 +17,8 @@ script = ExtResource(1)
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 scale = Vector2(3, 3)
+script = ExtResource(3)
+visual_kind = "boss"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("1_RectangleShape2D")

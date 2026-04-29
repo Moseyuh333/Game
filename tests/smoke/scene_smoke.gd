@@ -24,6 +24,8 @@ const SCRIPTS := [
 	"res://src/core/GameManager.gd",
 	"res://src/core/SaveManager.gd",
 	"res://src/core/ShakeCamera.gd",
+	"res://src/visuals/ArenaDressing.gd",
+	"res://src/visuals/ProceduralSprite.gd",
 	"res://src/gameplay/DeathParticles.gd",
 	"res://src/gameplay/EnemyBase.gd",
 	"res://src/gameplay/Grunt.gd",

@@ -110,6 +110,8 @@ func take_damage(amount: int):
 		# Trigger screen shake
 		if camera and camera.has_method("shake"):
 			camera.shake(0.2, 5.0)
+		if not GameManager.is_alive():
+			_die()
 	return actual
 
 func is_alive() -> bool:
@@ -120,6 +122,10 @@ func apply_speed_boost(multiplier: float, duration: float):
 	speed_boost_timer = duration
 
 func update_sprite_color():
+	if sprite and sprite.has_method("set_visual_kind"):
+		sprite.set_visual_kind("player")
+		sprite.modulate = Color.WHITE
+		return
 	# Create a simple 16x16 blue square texture if not already set
 	if not sprite.texture:
 		var img = Image.create(16, 16, false, Image.FORMAT_RGBA8)

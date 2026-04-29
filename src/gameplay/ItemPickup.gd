@@ -18,6 +18,16 @@ func _ready():
 		# Set sprite color based on item type
 		var sprite = get_node_or_null("Sprite2D")
 		if sprite:
+			if sprite.has_method("set_visual_kind"):
+				match item_data.get("id", item_id):
+					"heal_potion":
+						sprite.set_visual_kind("heal")
+					"speed_boost":
+						sprite.set_visual_kind("speed")
+					"plating":
+						sprite.set_visual_kind("armor")
+					_:
+						sprite.set_visual_kind("fragment")
 			if not sprite.texture:
 				var img = Image.create(12, 12, false, Image.FORMAT_RGBA8)
 				match item_data.get("type", ""):

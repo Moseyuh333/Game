@@ -5,7 +5,9 @@ var shoot_timer: float = 0.0
 func _ready():
 	enemy_type = "ranged"
 	is_boss = false
-	sprite.modulate = Color(1.0, 0.6, 0.0)  # Orange
+	sprite.modulate = Color.WHITE
+	if sprite.has_method("set_visual_kind"):
+		sprite.set_visual_kind("ranged")
 	if not sprite.texture:
 		var img = Image.create(16, 16, false, Image.FORMAT_RGBA8)
 		img.fill(sprite.modulate)
